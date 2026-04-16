@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=JetBrains+Mono:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-cyan: #00ffff;
+  --color-magenta: #ff00ff;
+  --font-pixel: "VT323", monospace;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-[#000] text-cyan antialiased overflow-hidden font-pixel uppercase;
+    background-image: radial-gradient(circle, #111 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+}
+
+/* Glitch Animations */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes noise {
+  0% { transform: translateX(0); }
+  10% { transform: translateX(-5%); }
+  20% { transform: translateX(5%); }
+  30% { transform: translateX(-5%); }
+  40% { transform: translateX(5%); }
+  50% { transform: translateX(-5%); }
+  60% { transform: translateX(5%); }
+  70% { transform: translateX(-5%); }
+  80% { transform: translateX(5%); }
+  90% { transform: translateX(-5%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+}
+
+.glitch-text::before {
+  left: 2px;
+  text-shadow: -2px 0 var(--color-magenta);
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch 5s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+  left: -2px;
+  text-shadow: -2px 0 var(--color-cyan);
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch 5s infinite linear alternate-reverse;
+}
+
+.crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 255, 255, 0.1), transparent);
+  animation: scanline 8s linear infinite;
+  pointer-events: none;
+  z-index: 101;
+}
+
+.static-noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://media.giphy.com/media/oEI9uWUznW3Ze/giphy.gif");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 99;
+}
+
+.border-glitch {
+  border: 2px solid var(--color-cyan);
+  box-shadow: 4px 4px 0 var(--color-magenta);
+}
+
+.border-glitch:hover {
+  animation: glitch 0.2s infinite;
+}
